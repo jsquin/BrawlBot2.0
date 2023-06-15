@@ -31,7 +31,7 @@ def WriteLegends(legends):
             f.write(f"{L.name}|{L.attack}|{L.dexterity}|{L.defense}|{L.speed}|{L.weapons[0]}|{L.weapons[1]}\n")
 
 def ReadList(path):
-    # Reads weapon or legend white / black list and returns list 
+    # Reads a filter list text doc and returns list 
     with open(f"{path}.txt", "r") as f:
         line = f.readlines()
         if len(line) == 0:
@@ -43,6 +43,7 @@ def ReadList(path):
         return vals 
     
 def WriteList(path, vals):
+    # Writes a filter list to path
     with open(f"{path}.txt", "w") as f:
         for val in vals:
             f.write(f"{val}|")
@@ -91,7 +92,7 @@ def update_image():
     global current_legend, label
 
     # Load Image 
-    image = PIL.Image.open(f"{current_legend}.png")
+    image = PIL.Image.open(f"icons/{current_legend}.png")
 
     # Resize Image to be close to 150x150
     min_ratio = min(150 / image.size[0], 150 / image.size[1])
@@ -141,6 +142,9 @@ def command_generator():
 def findLegendImage():
     # Selects legend icon on screen
     # TODO: Fail case (default loc)
+    #       Maybe check if max_val is too low
+    #       Maybe check that mouse position is somewhere in proper box?
+    # TODO: What if images are slightly different sized?
     global current_legend
 
     # Snapshot of screen and convert to grayscale
@@ -148,11 +152,11 @@ def findLegendImage():
     screen = cv2.cvtColor(src=screen, code=cv2.COLOR_BGR2GRAY)
 
     # Load current_legend icon as grayscale
-    template = cv2.imread(f"{current_legend}.PNG", 0)
+    template = cv2.imread(f"icons/{current_legend}.PNG", 0)
 
     # Find match on screen of icon
     result = cv2.matchTemplate(screen, template, cv2.TM_CCOEFF)
-    _, _, _, max_loc= cv2.minMaxLoc(result)
+    _, max_val, _, max_loc= cv2.minMaxLoc(result)
 
     # Reshape data
     height, width= template.shape[:2]
@@ -333,7 +337,7 @@ if __name__ == "__main__":
     B2.place(relx = 0.5, rely = 0.9, anchor = CENTER)
     
     # Initilze Icon Image into frame. Default is random
-    image = PIL.Image.open(f"random.png")
+    image = PIL.Image.open("icons/random.png")
     min_ratio = min(150 / image.size[0], 150 / image.size[1])
     image = image.resize((int(image.size[0] * min_ratio), int(image.size[1] * min_ratio)))
     img = PIL.ImageTk.PhotoImage(image)
