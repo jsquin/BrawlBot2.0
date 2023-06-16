@@ -1,16 +1,16 @@
-bodvar|6|6|5|5|hammer|sword|557|160
-cassidy|6|8|4|4|hammer|blasters|621|160
-orion|4|6|6|7|spear|lance|694|160
-lord vraxx|4|8|4|7|blasters|lance|759|160
-gnash|7|3|5|7|hammer|spear|835|160
-queen nai|7|4|8|3|katars|spear|900|160
-hattori|4|6|4|8|sword|spear|963|160
-sir roland|5|5|8|4|lance|sword|1034|160
-scarlet|8|5|5|4|lance|hammer|1101|160
-thatch|7|5|3|7|blasters|sword|1169|160
-ada|6|7|3|6|blasters|spear|1233|160
-sentinel|5|4|7|6|katars|hammer|1301|160
-lucien|3|5|6|8|katars|blasters|1379|160
+bodvar|6|6|5|5|hammer|sword|551|161
+cassidy|6|8|4|4|hammer|blasters|621|162
+orion|4|6|6|7|spear|lance|691|160
+lord vraxx|4|8|4|7|blasters|lance|755|161
+gnash|7|3|5|7|hammer|spear|839|163
+queen nai|7|4|8|3|katars|spear|902|166
+hattori|4|6|4|8|sword|spear|957|158
+sir roland|5|5|8|4|lance|sword|1047|153
+scarlet|8|5|5|4|lance|hammer|1100|164
+thatch|7|5|3|7|blasters|sword|1179|161
+ada|6|7|3|6|blasters|spear|1239|154
+sentinel|5|4|7|6|katars|hammer|1298|158
+lucien|3|5|6|8|katars|blasters|1371|158
 teros|8|3|6|5|hammer|axe|548|230
 brynn|5|5|5|7|axe|spear|626|230
 asuri|4|7|5|6|katars|sword|686|230
@@ -45,7 +45,7 @@ fait|7|4|4|7|scythe|orb|835|380
 thor|6|4|7|5|hammer|orb|900|380
 petra|8|4|4|6|orb|gauntlets|963|380
 vector|5|4|6|7|lance|bow|1034|380
-volkov|4|8|6|4|axe|scythe|1101|381169|3800
+volkov|4|8|6|4|axe|scythe|1101|381169
 onyx|5|4|8|5|cannon|gauntlets|1170|380
 jaeyun|6|5|5|6|greatsword|sword|1233|380
 mako|6|4|4|8|katars|greatsword|1301|380

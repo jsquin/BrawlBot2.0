@@ -66,6 +66,8 @@ legends = ReadLegends()
 LWL, LBL, WWL, WBL, WWL_OR, WBL_OR = None, None, None, None, None, None
 allweapons = {x.weapons[0] for x in legends.values()}.union({x.weapons[1] for x in legends.values()})
 alllegends = [x.name for x in legends.values()]
+legendlocator, legendindex = False, 0
+labelmain = None
 
 
 ########### Legend Selection Functions ###########
@@ -166,19 +168,18 @@ def findLegendImage():
 
     # CV2 isn't confident or mouse position is not in range (This may change based on # of crossovers)
     if max_val < 13000000 or (newpos[0] < 523 or newpos[0] > 1407 or newpos[1] < 122 or newpos[1] > 485):
-        
+
         # Try default loc instead
         mouse.moveTo(legends[current_legend].default_loc)
         mouse.click()
         mouse.click()
-        print(max_val, " DEFAULT")
-
     else:
+
         # Position mouse and select legend
         mouse.moveTo(newpos)
         mouse.click()
         mouse.click()
-        print(max_val)
+
 
 def MasterListEditor(input, output, edit_list, edit_type, add):
     # Edits (add / remove) master lists and displays on a label.
@@ -221,17 +222,12 @@ def MasterListEditor(input, output, edit_list, edit_type, add):
             if not add and input_val in weaponblacklist:
                 weaponblacklist.remove(input_val)
             WriteList("weaponblacklist", weaponblacklist)
-
     DisplayList(edit_list, edit_type, output)
     
-
 def DisplayList(edit_list, edit_type, output):
     # Displays relevant filter list on some output label
     global legendwhitelist, legendblacklist, weaponwhitelist, weaponblacklist
-
-    count = 0
-    string = ""
-    N = 60
+    count, string, N = 0, "", 60
 
     # Determine which filter list to use
     if edit_list.get() == 0: 
@@ -255,8 +251,34 @@ def DisplayList(edit_list, edit_type, output):
 
     output.config(text = string)
 
+def key_press(e):
+    global legendlocator, legendindex, labelmain
+    key = e.keysym.lower()
+    if key == "space":
+        if legendlocator:
+            LegendLocator()
+    elif key == "q":
+        legendlocator = False
+        legendindex = 0
+        labelmain.config(text = "")
+
+def StartLocator():
+    global legendlocator, alllegends, legendindex
+    legendlocator = True
+    labelmain.config(text = f"Hover over the legend's icon and press space\n{[alllegends[legendindex]]}")
+
+def LegendLocator():
+    global labelmain, legendindex, legends, alllegends
+    # Cycles through every Legend and updates location.
+    pos = mouse.position() 
+    cur_legend = legends[alllegends[legendindex]]
+    cur_legend.default_loc = [pos[0], pos[1]]
+    legendindex += 1
+    WriteLegends(legends)
+    labelmain.config(text = f"Hover over the legend's icon and press space\n{[alllegends[legendindex]]}")
 
 def EditWindow():
+    global labelmain
     # Opens temporary window to edit filter lists
 
     # New Tkinter window as 400 x 300 with slightly offset padding
@@ -297,12 +319,21 @@ def EditWindow():
     B2 = Button(win2, text = " Remove ", command = lambda: MasterListEditor(textBox, labelmain, edit_list, edit_type, False))
     B2.place(relx = 0.6, rely = 0.8, anchor = CENTER)
 
+    # Legend Locator Button
+    B3 = Button(win2, text = "Legend Locator", command = StartLocator)
+    B3.place(relx = 0.5, rely = 0.3, anchor = CENTER)
+
+    # Keybinds
+    win2.bind('<KeyPress>',key_press)
+
     win2.mainloop()
 
 
 ########### MAIN ###########
     # TODO: Add checking that relevant files exist
     # TODO: Look into overlay -> https://pypi.org/project/overlay/
+    # TODO: Add a legend location indexing mode, avoid the icon recognition problem entirely.
+    #           Cycle through each legend, hover over location and press enter
     # Known Bugs:
     #           Different image sizes don't work (offline)
     #           Image Recognition Still fails and doesn't go to default.
