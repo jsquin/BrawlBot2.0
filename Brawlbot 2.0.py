@@ -20,7 +20,7 @@ def ReadLegends():
             temp = legend.split("|")
             temp[len(temp)-1] = temp[len(temp)-1][:-1]
             # TODO: Implement Default Loc
-            legends[temp[0]] = Legend(temp[0], [int(temp[1]), int(temp[2]), int(temp[3]), int(temp[4])], [temp[5], temp[6]])
+            legends[temp[0]] = Legend(temp[0], [int(temp[1]), int(temp[2]), int(temp[3]), int(temp[4])], [temp[5], temp[6]], (temp[7], temp[8]))
     return legends 
 
 def WriteLegends(legends):
@@ -28,7 +28,7 @@ def WriteLegends(legends):
     with open("legends.txt", "w") as f:
         for legend in legends:
             L = legends[legend]
-            f.write(f"{L.name}|{L.attack}|{L.dexterity}|{L.defense}|{L.speed}|{L.weapons[0]}|{L.weapons[1]}\n")
+            f.write(f"{L.name}|{L.attack}|{L.dexterity}|{L.defense}|{L.speed}|{L.weapons[0]}|{L.weapons[1]}|{L.default_loc[0]}|{L.default_loc[1]}\n")
 
 def ReadList(path):
     # Reads a filter list text doc and returns list 
@@ -143,9 +143,8 @@ def findLegendImage():
     # Selects legend icon on screen
     # TODO: Fail case (default loc)
     #       Maybe check if max_val is too low
-    #       Maybe check that mouse position is somewhere in proper box?
     # TODO: What if images are slightly different sized?
-    global current_legend
+    global current_legend, legends
 
     # Snapshot of screen and convert to grayscale
     screen = np.array(ImageGrab.grab())
@@ -164,10 +163,22 @@ def findLegendImage():
     bottom_right= (top_left[0] + width, top_left[1] + height)
     cv2.rectangle(screen, top_left, bottom_right, (0,0,255),5)
 
-    # Position mouse and select legend
-    mouse.moveTo((top_left[0] + bottom_right[0]) // 2, (top_left[1] + bottom_right[1])//2)
-    mouse.click()
-    mouse.click()
+    # Calculate Mouse position
+    newpos = (top_left[0] + bottom_right[0]) // 2, (top_left[1] + bottom_right[1])//2
+
+    # Determine if mouse position is in the rectangle of legends (This may change based on # of crossovers)
+    if newpos[0] < 523 or newpos[0] > 1407 or newpos[1] < 122 or newpos[1] > 485:
+        
+        # Try default loc instead
+        mouse.moveTo(legends[current_legend].default_loc)
+        mouse.click()
+        mouse.click()
+
+    else:
+        # Position mouse and select legend
+        mouse.moveTo(newpos)
+        mouse.click()
+        mouse.click()
 
 def MasterListEditor(input, output, edit_list, edit_type, add):
     # Edits (add / remove) master lists and displays on a label.
@@ -297,9 +308,11 @@ def EditWindow():
     #       Alternatively: Every time a legend is searched, add location to a dict if successful.
     # TODO: Add checking that relevant files exist
     # TODO: Implement default location.
+    # TODO: Look into overlay -> https://pypi.org/project/overlay/
     # Known Bugs:
     #           Jaeyun doesn't work
     #           Different image sizes don't work (offline)
+    #
 if __name__ == "__main__":
 
     # Initialize Tkinter window as 400x300 with padding of 600x600

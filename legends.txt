@@ -1,59 +1,59 @@
-bodvar|6|6|5|5|hammer|sword
-cassidy|6|8|4|4|hammer|blasters
-orion|4|6|6|7|spear|lance
-lord vraxx|4|8|4|7|blasters|lance
-gnash|7|3|5|7|hammer|spear
-queen nai|7|4|8|3|katars|spear
-hattori|4|6|4|8|sword|spear
-sir roland|5|5|8|4|lance|sword
-scarlet|8|5|5|4|lance|hammer
-thatch|7|5|3|7|blasters|sword
-ada|6|7|3|6|blasters|spear
-sentinel|5|4|7|6|katars|hammer
-lucien|3|5|6|8|katars|blasters
-teros|8|3|6|5|hammer|axe
-brynn|5|5|5|7|axe|spear
-asuri|4|7|5|6|katars|sword
-barraza|6|4|8|4|blasters|axe
-ember|6|6|3|7|bow|katars
-azoth|7|5|6|4|bow|axe
-koji|5|8|4|5|bow|sword
-ulgrim|6|3|7|6|axe|lance
-diana|5|6|5|6|bow|blasters
-jhala|7|7|3|5|axe|sword
-kor|6|5|7|4|hammer|gauntlets
-wu shang|5|7|5|5|spear|gauntlets
-val|4|5|6|7|sword|gauntlets
-ragnir|5|6|6|5|katars|axe
-cross|7|4|6|5|blasters|gauntlets
-mirage|7|6|4|5|scythe|spear
-nix|4|5|7|6|scythe|blasters
-mordex|6|4|5|7|scythe|gauntlets
-yumiko|4|7|4|7|hammer|bow
-artemis|5|5|4|8|scythe|lance
-caspian|7|5|4|6|katars|gauntlets
-sidra|6|4|6|6|cannon|sword
-xull|9|4|5|4|cannon|axe
-kaya|4|4|7|7|spear|bow
-isaiah|5|6|7|4|cannon|blasters
-jiro|5|7|3|7|sword|scythe
-lin fei|3|8|4|7|katars|cannon
-zariel|7|4|7|4|bow|gauntlets
-rayman|5|5|6|6|gauntlets|axe
-dusk|6|7|4|5|spear|orb
-fait|7|4|4|7|scythe|orb
-thor|6|4|7|5|hammer|orb
-petra|8|4|4|6|orb|gauntlets
-vector|5|4|6|7|lance|bow
-volkov|4|8|6|4|axe|scythe
-onyx|5|4|8|5|cannon|gauntlets
-jaeyun|6|5|5|6|greatsword|sword
-mako|6|4|4|8|katars|greatsword
-magyar|5|4|9|4|greatsword|hammer
-reno|4|7|6|5|blasters|orb
-munin|5|6|4|7|bow|scythe
-arcadia|7|7|4|4|greatsword|spear
-ezio|5|7|4|6|orb|sword
-tezca|7|5|5|5|boots|gauntlets
-thea|4|6|4|9|boots|lance
-red raptor|6|6|4|6|boots|orb
+bodvar|6|6|5|5|hammer|sword|557|160
+cassidy|6|8|4|4|hammer|blasters|621|160
+orion|4|6|6|7|spear|lance|694|160
+lord vraxx|4|8|4|7|blasters|lance|759|160
+gnash|7|3|5|7|hammer|spear|835|160
+queen nai|7|4|8|3|katars|spear|900|160
+hattori|4|6|4|8|sword|spear|963|160
+sir roland|5|5|8|4|lance|sword|1034|160
+scarlet|8|5|5|4|lance|hammer|1101|160
+thatch|7|5|3|7|blasters|sword|1169|160
+ada|6|7|3|6|blasters|spear|1233|160
+sentinel|5|4|7|6|katars|hammer|1301|160
+lucien|3|5|6|8|katars|blasters|1379|160
+teros|8|3|6|5|hammer|axe|548|230
+brynn|5|5|5|7|axe|spear|626|230
+asuri|4|7|5|6|katars|sword|686|230
+barraza|6|4|8|4|blasters|axe|761|230
+ember|6|6|3|7|bow|katars|828|230
+azoth|7|5|6|4|bow|axe|908|230
+koji|5|8|4|5|bow|sword|966|230
+ulgrim|6|3|7|6|axe|lance|1040|230
+diana|5|6|5|6|bow|blasters|1101|230
+jhala|7|7|3|5|axe|sword|1177|230
+kor|6|5|7|4|hammer|gauntlets|1322|230
+wu shang|5|7|5|5|spear|gauntlets|1301|230
+val|4|5|6|7|sword|gauntlets|1379|230
+ragnir|5|6|6|5|katars|axe|557|310
+cross|7|4|6|5|blasters|gauntlets|621|310
+mirage|7|6|4|5|scythe|spear|694|310
+nix|4|5|7|6|scythe|blasters|760|310
+mordex|6|4|5|7|scythe|gauntlets|835|310
+yumiko|4|7|4|7|hammer|bow|900|310
+artemis|5|5|4|8|scythe|lance|963|310
+caspian|7|5|4|6|katars|gauntlets|1034|310
+sidra|6|4|6|6|cannon|sword|1101|310
+xull|9|4|5|4|cannon|axe|1170|310
+kaya|4|4|7|7|spear|bow|1233|310
+isaiah|5|6|7|4|cannon|blasters|1300|310
+jiro|5|7|3|7|sword|scythe|1380|310
+lin fei|3|8|4|7|katars|cannon|550|380
+zariel|7|4|7|4|bow|gauntlets|620|380
+rayman|5|5|6|6|gauntlets|axe|695|380
+dusk|6|7|4|5|spear|orb|760|380
+fait|7|4|4|7|scythe|orb|835|380
+thor|6|4|7|5|hammer|orb|900|380
+petra|8|4|4|6|orb|gauntlets|963|380
+vector|5|4|6|7|lance|bow|1034|380
+volkov|4|8|6|4|axe|scythe|1101|381169|3800
+onyx|5|4|8|5|cannon|gauntlets|1170|380
+jaeyun|6|5|5|6|greatsword|sword|1233|380
+mako|6|4|4|8|katars|greatsword|1301|380
+magyar|5|4|9|4|greatsword|hammer|1380|460
+reno|4|7|6|5|blasters|orb|552|460
+munin|5|6|4|7|bow|scythe|617|460
+arcadia|7|7|4|4|greatsword|spear|700|460
+ezio|5|7|4|6|orb|sword|760|460
+tezca|7|5|5|5|boots|gauntlets|830|460
+thea|4|6|4|9|boots|lance|900|460
+red raptor|6|6|4|6|boots|orb|963|460
