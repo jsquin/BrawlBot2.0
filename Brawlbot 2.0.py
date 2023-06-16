@@ -12,14 +12,13 @@ def getlists():
     return ReadList("legendwhitelist"), ReadList("legendblacklist"), ReadList("weaponwhitelist"), ReadList("weaponblacklist")
 
 def ReadLegends():
-    # Returns dict of legends
+    # Returns dict of legend name:legend object
     legends = dict()
     with open("legends.txt", "r") as f:
         legendlist = f.readlines() 
         for legend in legendlist:
             temp = legend.split("|")
             temp[len(temp)-1] = temp[len(temp)-1][:-1]
-            # TODO: Implement Default Loc
             legends[temp[0]] = Legend(temp[0], [int(temp[1]), int(temp[2]), int(temp[3]), int(temp[4])], [temp[5], temp[6]], (temp[7], temp[8]))
     return legends 
 
@@ -38,9 +37,10 @@ def ReadList(path):
             return [] 
         else:
             line = line[0]
-        vals = line.split("|")
-        vals = vals[:-1]
-        return vals 
+        # vals = (line.split("|"))
+        # vals = vals[:-1]
+        # return vals 
+        return (line.split("|"))[:-1]
     
 def WriteList(path, vals):
     # Writes a filter list to path
@@ -55,24 +55,23 @@ class Legend:
         if default_loc is None:
             default_loc = [0,0]
         self.name, self.weapons, self.default_loc = name, weapons, default_loc
-        self.attack, self.dexterity, self.defense, self.speed = stats[0], stats[1], stats[2], stats[3] 
+        # self.attack, self.dexterity, self.defense, self.speed = stats[0], stats[1], stats[2], stats[3] 
+        self.attack, self.dexterity, self.defense, self.speed = stats
 
 
 ########### Global Variables ###########
 current_legend = "random"
-minimize = False
 legendwhitelist, legendblacklist, weaponwhitelist, weaponblacklist = getlists()
 legends = ReadLegends()
 LWL, LBL, WWL, WBL, WWL_OR, WBL_OR = None, None, None, None, None, None
 allweapons = {x.weapons[0] for x in legends.values()}.union({x.weapons[1] for x in legends.values()})
 alllegends = [x.name for x in legends.values()]
 
+
 ########### Legend Selection Functions ###########
 def SelectLegend(custom_filter):
     # Uses mouse to select random legend given filters.
     global current_legend, legends
-    if minimize:
-        win.state(newstate = "iconic")
     
     # Filter Legend Names 
     newkeys = []
@@ -109,8 +108,7 @@ def SelectStat(stats, above, below):
     # TODO
     # all args should be lists
     # Selects random legend given stat requirement.
-    if minimize:
-        win.state(newstate = "iconic")
+    return 
 
 def EditLegend(name, stat, statval):
     # TODO
@@ -155,7 +153,7 @@ def findLegendImage():
 
     # Find match on screen of icon
     result = cv2.matchTemplate(screen, template, cv2.TM_CCOEFF)
-    _, max_val, _, max_loc= cv2.minMaxLoc(result)
+    min_val, max_val, _, max_loc= cv2.minMaxLoc(result)
 
     # Reshape data
     height, width= template.shape[:2]
@@ -166,19 +164,21 @@ def findLegendImage():
     # Calculate Mouse position
     newpos = (top_left[0] + bottom_right[0]) // 2, (top_left[1] + bottom_right[1])//2
 
-    # Determine if mouse position is in the rectangle of legends (This may change based on # of crossovers)
-    if newpos[0] < 523 or newpos[0] > 1407 or newpos[1] < 122 or newpos[1] > 485:
+    # CV2 isn't confident or mouse position is not in range (This may change based on # of crossovers)
+    if max_val < 13000000 or (newpos[0] < 523 or newpos[0] > 1407 or newpos[1] < 122 or newpos[1] > 485):
         
         # Try default loc instead
         mouse.moveTo(legends[current_legend].default_loc)
         mouse.click()
         mouse.click()
+        print(max_val, " DEFAULT")
 
     else:
         # Position mouse and select legend
         mouse.moveTo(newpos)
         mouse.click()
         mouse.click()
+        print(max_val)
 
 def MasterListEditor(input, output, edit_list, edit_type, add):
     # Edits (add / remove) master lists and displays on a label.
@@ -301,18 +301,12 @@ def EditWindow():
 
 
 ########### MAIN ###########
-    # TODO: Remove from "main()" function after testing completed
-    # TODO: On init, take a screenshot of the menu and index all legends? 
-    #       That way, no need to use cv2 for every search?
-    #       But How many times would you even use in a single session?
-    #       Alternatively: Every time a legend is searched, add location to a dict if successful.
     # TODO: Add checking that relevant files exist
-    # TODO: Implement default location.
     # TODO: Look into overlay -> https://pypi.org/project/overlay/
     # Known Bugs:
-    #           Jaeyun doesn't work
     #           Different image sizes don't work (offline)
-    #
+    #           Image Recognition Still fails and doesn't go to default.
+    #               Might need to normalize the size of icons for consistent cv2 scoring
 if __name__ == "__main__":
 
     # Initialize Tkinter window as 400x300 with padding of 600x600
