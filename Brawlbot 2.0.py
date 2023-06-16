@@ -1,10 +1,7 @@
-import cv2
-from PIL import ImageGrab
 import pyautogui as mouse
 import PIL.Image, PIL.ImageTk
 from tkinter import *
 import random
-import numpy as np
 
 ########### Misc File Functions ###########
 def getlists():
@@ -37,9 +34,6 @@ def ReadList(path):
             return [] 
         else:
             line = line[0]
-        # vals = (line.split("|"))
-        # vals = vals[:-1]
-        # return vals 
         return (line.split("|"))[:-1]
     
 def WriteList(path, vals):
@@ -55,14 +49,12 @@ class Legend:
         if default_loc is None:
             default_loc = [0,0]
         self.name, self.weapons, self.default_loc = name, weapons, default_loc
-        # self.attack, self.dexterity, self.defense, self.speed = stats[0], stats[1], stats[2], stats[3] 
         self.attack, self.dexterity, self.defense, self.speed = stats
 
 
 ########### Global Variables ###########
-current_legend = "random"
+current_legend, legends = "random", ReadLegends()
 legendwhitelist, legendblacklist, weaponwhitelist, weaponblacklist = getlists()
-legends = ReadLegends()
 LWL, LBL, WWL, WBL, WWL_OR, WBL_OR = None, None, None, None, None, None
 allweapons = {x.weapons[0] for x in legends.values()}.union({x.weapons[1] for x in legends.values()})
 alllegends = [x.name for x in legends.values()]
@@ -73,7 +65,7 @@ labelmain = None
 ########### Legend Selection Functions ###########
 def SelectLegend(custom_filter):
     # Uses mouse to select random legend given filters.
-    global current_legend, legends
+    global current_legend#, # legends
     
     # Filter Legend Names 
     newkeys = []
@@ -86,7 +78,8 @@ def SelectLegend(custom_filter):
     update_image()
 
     # Select Legend
-    findLegendImage()
+    # findLegendImage()
+    findLegendImage_NOCV2()
 
 def update_image():
     # Update GUI with current_legend
@@ -139,47 +132,11 @@ def command_generator():
         filter4 = lambda L: L.weapons[0] not in weaponblacklist and L.weapons[1] not in weaponblacklist
     return lambda L: filter1(L) and filter2(L) and filter3(L) and filter4(L)
 
-def findLegendImage():
-    # Selects legend icon on screen
-    # TODO: Fail case (default loc)
-    #       Maybe check if max_val is too low
-    # TODO: What if images are slightly different sized?
-    global current_legend, legends
-
-    # Snapshot of screen and convert to grayscale
-    screen = np.array(ImageGrab.grab())
-    screen = cv2.cvtColor(src=screen, code=cv2.COLOR_BGR2GRAY)
-
-    # Load current_legend icon as grayscale
-    template = cv2.imread(f"icons/{current_legend}.PNG", 0)
-
-    # Find match on screen of icon
-    result = cv2.matchTemplate(screen, template, cv2.TM_CCOEFF)
-    min_val, max_val, _, max_loc= cv2.minMaxLoc(result)
-
-    # Reshape data
-    height, width= template.shape[:2]
-    top_left= max_loc
-    bottom_right= (top_left[0] + width, top_left[1] + height)
-    cv2.rectangle(screen, top_left, bottom_right, (0,0,255),5)
-
-    # Calculate Mouse position
-    newpos = (top_left[0] + bottom_right[0]) // 2, (top_left[1] + bottom_right[1])//2
-
-    # CV2 isn't confident or mouse position is not in range (This may change based on # of crossovers)
-    if max_val < 13000000 or (newpos[0] < 523 or newpos[0] > 1407 or newpos[1] < 122 or newpos[1] > 485):
-
-        # Try default loc instead
-        mouse.moveTo(legends[current_legend].default_loc)
-        mouse.click()
-        mouse.click()
-    else:
-
-        # Position mouse and select legend
-        mouse.moveTo(newpos)
-        mouse.click()
-        mouse.click()
-
+def findLegendImage_NOCV2():
+    # Selects legend icon on screen only using default loc
+    mouse.moveTo(legends[current_legend].default_loc)
+    mouse.click()
+    mouse.click()
 
 def MasterListEditor(input, output, edit_list, edit_type, add):
     # Edits (add / remove) master lists and displays on a label.
@@ -192,7 +149,7 @@ def MasterListEditor(input, output, edit_list, edit_type, add):
     # Determine which filter list to edit, then edits if possible
     if edit_type.get() == 0:
         if input_val not in alllegends:
-            output.config(text = f"{input_val} is not a valid legend")
+            output.config(text = f"'{input_val}' is not a valid legend")
             return
         elif edit_list.get() == 0:
             if add and input_val not in legendwhitelist:
@@ -208,7 +165,8 @@ def MasterListEditor(input, output, edit_list, edit_type, add):
             WriteList("legendblacklist", legendblacklist)
     else:
         if input_val not in allweapons:
-            output.config(text = f"{input_val} is not a valid weapon")
+            print(input_val, allweapons)
+            output.config(text = f"'{input_val}' is not a valid weapon")
             return
         elif edit_list.get() == 0:
             if add and input_val not in weaponwhitelist:
@@ -222,6 +180,7 @@ def MasterListEditor(input, output, edit_list, edit_type, add):
             if not add and input_val in weaponblacklist:
                 weaponblacklist.remove(input_val)
             WriteList("weaponblacklist", weaponblacklist)
+    input.delete('1.0', "end")
     DisplayList(edit_list, edit_type, output)
     
 def DisplayList(edit_list, edit_type, output):
